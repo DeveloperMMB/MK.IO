@@ -23,7 +23,7 @@ namespace MK.IO.Models
         /// </summary>
         [DataMember(Name = "size", EmitDefaultValue = false)]
         [JsonProperty(PropertyName = "size")]
-        public int? Size { get; set; }
+        public long? Size { get; set; }
 
 
         /// <summary>
