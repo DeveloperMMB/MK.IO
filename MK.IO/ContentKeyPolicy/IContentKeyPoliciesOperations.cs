@@ -99,6 +99,23 @@ namespace MK.IO.Operations
         /// <returns></returns>
         Task<ContentKeyPolicySchema> CreateAsync(string contentKeyPolicyName, ContentKeyPolicyProperties properties);
 
+#if NETSTANDARD2_1_OR_GREATER || NET6_0_OR_GREATER
+        /// <summary>
+        /// Update a Content Key Policy
+        /// </summary>
+        /// <param name="contentKeyPolicyName"></param>
+        /// <param name="properties"></param>
+        /// <returns></returns>
+        ContentKeyPolicySchema Update(string contentKeyPolicyName, ContentKeyPolicyProperties properties);
+
+        /// <summary>
+        /// Update a Content Key Policy
+        /// </summary>
+        /// <param name="contentKeyPolicyName"></param>
+        /// <param name="properties"></param>
+        /// <returns></returns>
+        Task<ContentKeyPolicySchema> UpdateAsync(string contentKeyPolicyName, ContentKeyPolicyProperties properties);
+#endif
         /// <summary>
         /// Get the properties of a Content Key Policy including secret values
         /// </summary>

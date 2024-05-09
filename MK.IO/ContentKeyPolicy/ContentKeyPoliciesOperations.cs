@@ -141,6 +141,29 @@ namespace MK.IO.Operations
             return JsonConvert.DeserializeObject<ContentKeyPolicySchema>(responseContent, ConverterLE.Settings) ?? throw new Exception("Error with content key policy deserialization");
         }
 
+#if NETSTANDARD2_1_OR_GREATER || NET6_0_OR_GREATER
+
+        /// <inheritdoc/>
+        public ContentKeyPolicySchema Update(string contentKeyPolicyName, ContentKeyPolicyProperties properties)
+        {
+            Task<ContentKeyPolicySchema> task = Task.Run(async () => await UpdateAsync(contentKeyPolicyName, properties));
+            return task.GetAwaiter().GetResult();
+        }
+
+        /// <inheritdoc/>
+        public async Task<ContentKeyPolicySchema> UpdateAsync(string contentKeyPolicyName, ContentKeyPolicyProperties properties)
+        {
+            Argument.AssertNotNullOrEmpty(contentKeyPolicyName, nameof(contentKeyPolicyName));
+            Argument.AssertNotContainsSpace(contentKeyPolicyName, nameof(contentKeyPolicyName));
+            Argument.AssertNotNull(properties, nameof(properties));
+
+            var url = Client.GenerateApiUrl(_contentKeyPolicyApiUrl, contentKeyPolicyName);
+            var content = new ContentKeyPolicySchema { Properties = properties };
+            string responseContent = await Client.UpdateObjectPatchAsync(url, content.ToJson());
+            return JsonConvert.DeserializeObject<ContentKeyPolicySchema>(responseContent, ConverterLE.Settings) ?? throw new Exception("Error with content key policy deserialization");
+        }
+#endif
+
         /// <inheritdoc/>
         public ContentKeyPolicyProperties GetPolicyPropertiesWithSecrets(string contentKeyPolicyName)
         {
